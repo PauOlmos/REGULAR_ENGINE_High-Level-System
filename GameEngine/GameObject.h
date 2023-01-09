@@ -10,8 +10,13 @@ class ComponentTexture;
 class ComponentMesh;
 class CameraComponent;
 
+enum class GOtype {
+	UI,NOTIU
+};
+
 class GameObject {
 public:
+	GOtype type;
 	GameObject(bool noParent = false);
 	GameObject(GameObject* Parent);
 	~GameObject();

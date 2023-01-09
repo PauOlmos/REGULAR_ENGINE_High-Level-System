@@ -4,6 +4,7 @@
 #include "Primitives.h"
 #include "Application.h"
 #include "ComponentCamera.h"
+#include "ModuleUI.h"
 
 bool HMenu::quit = false;
 bool HMenu::openInspector = true;
@@ -88,6 +89,14 @@ void HMenu::PrintMenu(Application* app)
 			if (ImGui::MenuItem(" Sphere  "))
 			{
 				Primitives::CreatePrimitive(Shapes::SPHERE);
+			}
+
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("UI Creator"))
+		{
+			if (ImGui::MenuItem(" Basic Element ")) {
+				ModuleUI::CreateUI(UIType::NORMAL);
 			}
 
 			ImGui::EndMenu();

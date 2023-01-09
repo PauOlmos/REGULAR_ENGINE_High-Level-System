@@ -3,6 +3,7 @@
 #include "MathGeoLib.h"
 
 struct Mesh;
+class ComponentMesh;
 
 class CameraComponent : public Component
 {

@@ -10,6 +10,7 @@
 #define MAX_LIGHTS 8
 
 class CameraComponent;
+class UICameraComponent;
 
 class ModuleRenderer3D : public Module
 {
@@ -41,4 +42,5 @@ public:
 
 private:
 	CameraComponent* mainGameCamera;
+	UICameraComponent* UIcc;
 };

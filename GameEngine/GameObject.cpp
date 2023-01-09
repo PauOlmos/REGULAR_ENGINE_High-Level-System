@@ -11,13 +11,13 @@
 
 GameObject::GameObject(bool noParent)
 {
-	
+	type = GOtype::NOTIU;
 	transform = new Transform();
 	transform->containerParent = this;
 	components.push_back(transform);
 
 	parent = nullptr;
-
+	
 	if (noParent) return;
 
 	Application::GetInstance()->hierarchy->rootHierarchy->AddChild(this);
@@ -25,6 +25,7 @@ GameObject::GameObject(bool noParent)
 
 GameObject::GameObject(GameObject* Parent)
 {
+	type = GOtype::NOTIU;
 	transform = new Transform();
 	transform->containerParent = this;
 	components.push_back(transform);
@@ -67,7 +68,13 @@ void GameObject::PrintInspector()
 	HMenu::ThemeStyleWind();
 	HMenu::ThemeStylePopUp();
 
-	char* listComponents[]{ "Add Component", "Mesh Component", "Texture Component", "Camera Component" };
+	char* listComponents[]{ "Add Component", "Mesh Component", "Texture Component", "Camera Component",""};
+	listComponents[0] = { "Add Component", };
+	listComponents[1] = { "Texture Component", };
+	listComponents[2] = { "Button Component", };
+	listComponents[3] = { "Slide Component", };
+	listComponents[4] = { "Text Input Component", };
+	// "Mesh Component", "Texture Component", "Camera Component" };
 
 	ImGui::Begin("Inspector");
 
@@ -103,42 +110,76 @@ void GameObject::PrintInspector()
 		ImGui::SameLine(ImGui::GetWindowWidth() / 6);
 		if (ImGui::Combo("##AddComponent", &componentNum, listComponents, IM_ARRAYSIZE(listComponents))) //number of total components u can give to a GO
 		{
-			switch (componentNum) {
-			case 1:
-			{
-				//Mesh component
-				if (GetComponent<ComponentMesh>() == nullptr) {
-					ComponentMesh* cm = new ComponentMesh();
-					AddComponent(cm);
+			if (type == GOtype::NOTIU) {
+				switch (componentNum) {
+				case 1:
+				{
+					//Mesh component
+					if (GetComponent<ComponentMesh>() == nullptr) {
+						ComponentMesh* cm = new ComponentMesh();
+						AddComponent(cm);
+					}
+					else {
+						LOG("Mesh Component already added, can't duplicate.")
+					}
 				}
-				else {
-					LOG("Mesh Component already added, can't duplicate.")
+				break;
+				case 2:
+				{
+					if (GetComponent<ComponentTexture>() == nullptr) {
+						ComponentTexture* ct = new ComponentTexture();
+						AddComponent(ct);
+					}
+					else {
+						LOG("Texture Component already added, can't duplicate.")
+					}
+				}
+				break;
+				case 3:
+				{
+					if (GetComponent<CameraComponent>() == nullptr) {
+						CameraComponent* cc = new CameraComponent();
+						AddComponent(cc);
+					}
+					else {
+						LOG("Camera Component already added, can't duplicate.")
+					}
+				}
+				break;
 				}
 			}
-			break;
-			case 2:
-			{
-				if (GetComponent<ComponentTexture>() == nullptr) {
-					ComponentTexture* ct = new ComponentTexture();
-					AddComponent(ct);
+			else {
+				switch (componentNum) {
+				case 1:
+				{
+					/*
+					else {
+						LOG("Mesh Component already added, can't duplicate.")
+					}*/
 				}
-				else {
-					LOG("Texture Component already added, can't duplicate.")
+				break;
+				case 2:
+				{
+					if (GetComponent<ComponentTexture>() == nullptr) {
+						ComponentTexture* ct = new ComponentTexture();
+						AddComponent(ct);
+					}
+					else {
+						LOG("Texture Component already added, can't duplicate.")
+					}
+				}
+				break;
+				case 3:
+				{
+				}
+				case 4:
+				{
+
+				}
+				break;
 				}
 			}
-			break;
-			case 3:
-			{
-				if (GetComponent<CameraComponent>() == nullptr) {
-					CameraComponent* cc = new CameraComponent();
-					AddComponent(cc);
-				}
-				else {
-					LOG("Camera Component already added, can't duplicate.")
-				}
-			}
-			break;
-			}
+			
 			componentNum = 0;
 		}
 	}

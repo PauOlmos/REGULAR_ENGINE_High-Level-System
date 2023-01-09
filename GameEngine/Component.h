@@ -7,6 +7,7 @@ enum class ComponentType {
 	MESH,
 	TEXTURE,
 	CAMERA,
+	UICAMERA
 };
 
 class Component

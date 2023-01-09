@@ -4,6 +4,7 @@
 
 #include "ModuleDummy.h"
 #include "ComponentCamera.h"
+#include "ComponentUICamera.h"
 #include "HeaderMenu.h"
 
 #include "SDL_opengl.h"
@@ -134,6 +135,7 @@ bool ModuleRenderer3D::Init()
 bool ModuleRenderer3D::Start()
 {
 	ImGui_Logic::Start();
+	UICameraComponent* UIcc = new UICameraComponent();
 	return true;
 }
 
@@ -184,6 +186,16 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		//Render Game Camera
 		App->meshRenderer->RenderGameWindow();
+
+
+		//Bind UI proj and view matrix
+		glMatrixMode(GL_PROJECTION);
+		glLoadMatrixf(UIcc->GetProjetionMatrix());
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf(UIcc->GetViewMatrix());
+		
+		UIcc->PrintUI();
 	}
 
 	//FrameBuffer clean binding
@@ -205,6 +217,8 @@ bool ModuleRenderer3D::CleanUp()
 
 	//Imgui
 	ImGui_Logic::CleanUp();
+
+	delete UIcc;
 
 	if (context != NULL)
 	{

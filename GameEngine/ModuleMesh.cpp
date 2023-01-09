@@ -174,6 +174,11 @@ void ModuleMesh::RenderScene()
 		c->frustum.GetCornerPoints(corners);
 		App->renderer3D->DrawBox(corners, float3(1, 0, 0));
 	}
+
+	//glDisable(GL_DEPTH);
+
+
+
 }
 
 void ModuleMesh::RenderGameWindow()
@@ -186,6 +191,17 @@ void ModuleMesh::RenderGameWindow()
 
 		meshes[i]->Render();
 		renderedGameMeshes++;
+	}
+
+
+}
+
+void ModuleMesh::RenderUI()
+{
+	for (int i = 0; i < meshesUI.size(); i++) {
+		if (!App->renderer3D->GetMainCamera()->IsInsideFrustum(meshesUI[i])) continue;
+
+		meshesUI[i]->Render();
 	}
 }
 
