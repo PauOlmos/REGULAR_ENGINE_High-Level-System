@@ -14,6 +14,8 @@ ModuleUI::~ModuleUI()
 
 bool ModuleUI::Start()
 {
+	UICam = new UICameraComponent();
+	UICam->frustum.pos = float3( 0,0,0 );
 	return UPDATE_CONTINUE;
 }
 
@@ -41,7 +43,6 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 {
 	GameObject* GO = new GameObject();
 
-	ComponentMesh* cm = new ComponentMesh();
 	Mesh* m = nullptr;
 
 	switch (GOtype) {
@@ -56,13 +57,7 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 	//Create AABB box
 	m->InitAABB();
 
-	//Add mesh to render pipeline
-	Application::GetInstance()->meshRenderer->LoadMesh(m);
-
-	//Add mesh to mesh component of GameObject
 	Application::GetInstance()->meshRenderer->meshesUI.push_back(m);
-	GO->AddComponent(cm);
-
 	return GO;
 }
 

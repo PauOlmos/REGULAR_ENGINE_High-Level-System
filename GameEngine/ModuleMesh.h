@@ -58,7 +58,7 @@ public:
 	int renderedSceneMeshes;
 	int renderedGameMeshes;
 
-	vector<Mesh*> meshes;
+	vector<Mesh*> meshess;
 	vector<Mesh*> meshesUI;
 
 	float3 debugRaycastA;

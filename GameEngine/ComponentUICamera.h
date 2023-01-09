@@ -26,8 +26,8 @@ public:
 	int cameraFOV = 60;
 	float farDistance = 500.0f;
 	float nearDistance = 0.1f;
-	
 
+	unsigned int UIcameraBuffer;
 private:
 	float4x4 UIviewMatrix;
 	float4x4 UIprojectionMatrix;

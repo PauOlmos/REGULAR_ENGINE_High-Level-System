@@ -85,7 +85,6 @@ bool UICameraComponent::IsInsideFrustum(Mesh* mesh)
 
 void UICameraComponent::PrintUI()
 {
-
 	Application::GetInstance()->meshRenderer->RenderUI();
 }
 

@@ -2,6 +2,7 @@
 
 #include "Module.h"
 #include "GameObject.h"
+#include "ComponentUICamera.h"
 
 enum class UIType {
 	NORMAL,BUTTON,SLIDER,TEXT_INPUT
@@ -10,6 +11,8 @@ enum class UIType {
 class ModuleUI : public Module
 {
 public:
+	UICameraComponent* UIcc = new UICameraComponent();
+	UICameraComponent* UICam;
 
 	ModuleUI(Application* app, bool start_enabled = true);
 

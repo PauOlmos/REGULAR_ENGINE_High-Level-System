@@ -50,12 +50,12 @@ void SceneWindows::PrintScene(Application* app)
 		app->meshRenderer->debugRaycastA = picking.a;
 		app->meshRenderer->debugRaycastB = picking.b;
 
-		for (size_t i = 0; i < app->meshRenderer->meshes.size(); i++)
+		for (size_t i = 0; i < app->meshRenderer->meshess.size(); i++)
 		{
-			if (picking.Intersects(app->meshRenderer->meshes[i]->OBB_box) && app->meshRenderer->meshes[i]->myGameObject->isEnabled)
+			if (picking.Intersects(app->meshRenderer->meshess[i]->OBB_box) && app->meshRenderer->meshess[i]->myGameObject->isEnabled)
 			{
-				if (app->meshRenderer->meshes[i]->myGameObject != nullptr)
-					PickedGO.push_back(app->meshRenderer->meshes[i]->myGameObject);
+				if (app->meshRenderer->meshess[i]->myGameObject != nullptr)
+					PickedGO.push_back(app->meshRenderer->meshess[i]->myGameObject);
 			}
 		}
 

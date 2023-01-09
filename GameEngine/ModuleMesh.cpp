@@ -143,7 +143,7 @@ void ModuleMesh::LoadMesh(Mesh* mesh)
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	//Add mesh to meshes vector
-	meshes.push_back(mesh);
+	meshess.push_back(mesh);
 }
 
 void ModuleMesh::RenderScene()
@@ -151,12 +151,12 @@ void ModuleMesh::RenderScene()
 	renderedSceneMeshes = 0;
 
 	//Render SCENE
-	for (int i = 0; i < meshes.size(); i++) {
-		if (!App->camera->cam->IsInsideFrustum(meshes[i])) continue;
+	for (int i = 0; i < meshess.size(); i++) {
+		if (!App->camera->cam->IsInsideFrustum(meshess[i])) continue;
 
-		meshes[i]->Render();
+		meshess[i]->Render();
 		if (HMenu::isBoundingBoxes)
-			meshes[i]->RenderAABB(); //AABBs
+			meshess[i]->RenderAABB(); //AABBs
 
 		renderedSceneMeshes++;
 	}
@@ -186,10 +186,10 @@ void ModuleMesh::RenderGameWindow()
 	renderedGameMeshes = 0;
 
 	//Render Game Window
-	for (int i = 0; i < meshes.size(); i++) {
-		if (!App->renderer3D->GetMainCamera()->IsInsideFrustum(meshes[i])) continue;
+	for (int i = 0; i < meshess.size(); i++) {
+		if (!App->renderer3D->GetMainCamera()->IsInsideFrustum(meshess[i])) continue;
 
-		meshes[i]->Render();
+		meshess[i]->Render();
 		renderedGameMeshes++;
 	}
 
@@ -218,11 +218,11 @@ bool ModuleMesh::Init()
 bool ModuleMesh::CleanUp()
 {
 	//Delete Meshes array
-	for (int i = 0; i < meshes.size(); i++) {
-		delete meshes[i];
-		meshes[i] = nullptr;
+	for (int i = 0; i < meshess.size(); i++) {
+		delete meshess[i];
+		meshess[i] = nullptr;
 	}
-	meshes.clear();
+	meshess.clear();
 
 	// detach log stream
 	aiDetachAllLogStreams();
@@ -232,10 +232,10 @@ bool ModuleMesh::CleanUp()
 
 void ModuleMesh::DeleteMesh(Mesh* m)
 {
-	for (size_t i = 0; i < meshes.size(); i++)
+	for (size_t i = 0; i < meshess.size(); i++)
 	{
-		if (meshes[i] == m) {
-			meshes.erase(meshes.begin() + i);
+		if (meshess[i] == m) {
+			meshess.erase(meshess.begin() + i);
 			delete m;
 			m = nullptr;
 			return;

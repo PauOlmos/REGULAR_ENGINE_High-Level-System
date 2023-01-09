@@ -135,7 +135,8 @@ bool ModuleRenderer3D::Init()
 bool ModuleRenderer3D::Start()
 {
 	ImGui_Logic::Start();
-	UICameraComponent* UIcc = new UICameraComponent();
+	GameObject* GhostCam = new GameObject();
+	//GhostCam->AddComponent(UIcc);
 	return true;
 }
 
@@ -187,15 +188,14 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		//Render Game Camera
 		App->meshRenderer->RenderGameWindow();
 
-
 		//Bind UI proj and view matrix
 		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf(UIcc->GetProjetionMatrix());
+		glLoadMatrixf(App->UI->UICam->GetProjetionMatrix());
 
 		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(UIcc->GetViewMatrix());
+		glLoadMatrixf(App->UI->UICam->GetViewMatrix());
 		
-		UIcc->PrintUI();
+		App->UI->UICam->PrintUI();
 	}
 
 	//FrameBuffer clean binding
@@ -218,7 +218,7 @@ bool ModuleRenderer3D::CleanUp()
 	//Imgui
 	ImGui_Logic::CleanUp();
 
-	delete UIcc;
+	delete App->UI->UICam;
 
 	if (context != NULL)
 	{
