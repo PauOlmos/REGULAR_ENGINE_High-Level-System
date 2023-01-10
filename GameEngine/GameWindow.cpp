@@ -46,25 +46,12 @@ void GameWindows::PrintCamera(Application* app)
 		app->meshRenderer->debugRaycastA = picking.a;
 		app->meshRenderer->debugRaycastB = picking.b;
 
-		for (size_t i = 0; i < app->meshRenderer->meshesUI.size(); i++)
-		{
-			/*if (picking.Intersects(app->meshRenderer->meshesUI[i]->OBB_box) && app->meshRenderer->meshesUI[i]->myGameObject->isEnabled)
-			{
-				if (app->meshRenderer->meshesUI[i]->myGameObject != nullptr)
-					PickedGOs.push_back(app->meshRenderer->meshesUI[i]->myGameObject);
-			}*/
+		klk = MPUI(picking, app->meshRenderer->meshesUI);
 
-			if (picking.a.x < app->meshRenderer->meshesUI[i]->myGameObject->transform->getScale().x * 0.069 + app->meshRenderer->meshesUI[i]->myGameObject->transform->getPosition().x * 2 * 0.069
-			 && picking.a.x > app->meshRenderer->meshesUI[i]->myGameObject->transform->getScale().x * -0.069 - app->meshRenderer->meshesUI[i]->myGameObject->transform->getPosition().x * 2 * -0.069
-			 &&	picking.a.y < app->meshRenderer->meshesUI[i]->myGameObject->transform->getScale().y * 0.069 + app->meshRenderer->meshesUI[i]->myGameObject->transform->getPosition().y * 2 * 0.069
-			 && picking.a.y > app->meshRenderer->meshesUI[i]->myGameObject->transform->getScale().y * -0.069 - app->meshRenderer->meshesUI[i]->myGameObject->transform->getPosition().y * 2 * -0.069) {
-				PickedGOs.push_back(app->meshRenderer->meshesUI[i]->myGameObject);
-				klk = app->meshRenderer->meshesUI[i]->myGameObject;
-			}
-			app->hierarchy->SetGameObjectSelected(klk);
+		PickedGOs.push_back(klk);
 
+		app->hierarchy->SetGameObjectSelected(klk);
 
-		}
 
 		if (PickedGOs.size() == 0) app->hierarchy->SetGameObjectSelected(nullptr);
 		PickedGOs.clear();
@@ -73,4 +60,18 @@ void GameWindows::PrintCamera(Application* app)
 	ImGui::PopStyleVar();
 	//ImGui::Render();
 	//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+GameObject* GameWindows::MPUI(LineSegment picking, vector<Mesh*> meshList) {
+
+	for (size_t i = 0; i < meshList.size(); i++)
+	{
+		if (picking.a.x <meshList[i]->myGameObject->transform->getScale().x * 0.07 + meshList[i]->myGameObject->transform->getPosition().x * 2 * 0.07
+			&& picking.a.x > meshList[i]->myGameObject->transform->getScale().x * -0.07 - meshList[i]->myGameObject->transform->getPosition().x * 2 * -0.07
+			&& picking.a.y < meshList[i]->myGameObject->transform->getScale().y * 0.05 + meshList[i]->myGameObject->transform->getPosition().y * 2 * 0.06
+			&& picking.a.y > meshList[i]->myGameObject->transform->getScale().y * -0.05 - meshList[i]->myGameObject->transform->getPosition().y * 2 * -0.055) {
+			return meshList[i]->myGameObject;
+		}
+	}
+	return nullptr;
 }
