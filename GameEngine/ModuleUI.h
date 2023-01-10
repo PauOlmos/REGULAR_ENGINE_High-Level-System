@@ -2,7 +2,6 @@
 
 #include "Module.h"
 #include "GameObject.h"
-#include "ComponentUICamera.h"
 
 enum class UIType {
 	NORMAL,BUTTON,SLIDER,TEXT_INPUT
@@ -25,5 +24,6 @@ public:
 	bool CleanUp();
 
 	static GameObject* CreateUI(UIType GOtype);
+	static GameObject* CreateUICrosshair(UIType GOtype);
 
 };

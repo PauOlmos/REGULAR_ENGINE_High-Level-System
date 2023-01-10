@@ -205,9 +205,6 @@
     <ClCompile Include="ModuleUI.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentUICamera.cpp">
-      <Filter>GameObject</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -527,9 +524,6 @@
     </ClInclude>
     <ClInclude Include="ModuleUI.h">
       <Filter>Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentUICamera.h">
-      <Filter>GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

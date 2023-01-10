@@ -4,7 +4,6 @@
 
 #include "ModuleDummy.h"
 #include "ComponentCamera.h"
-#include "ComponentUICamera.h"
 #include "HeaderMenu.h"
 
 #include "SDL_opengl.h"
@@ -186,21 +185,16 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		
 		//Descomentant de la línia 189/193 i comentant de la 181/185 es renderitza UI però no game
 
-		/*mainGameCamera->frustum.pos = { 0,0,0 };
+		mainGameCamera->frustum.pos = { 0,0,0 };
 		mainGameCamera->frustum.type = OrthographicFrustum;
 		App->renderer3D->BindCameraBuffer(mainGameCamera);
-		mainGameCamera->frustum.type = PerspectiveFrustum;*/
-		
-
+		mainGameCamera->frustum.type = PerspectiveFrustum;
 		App->meshRenderer->RenderUI();
 
 	}
 
 	//FrameBuffer clean binding
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	//Render GAME CAMERA
-
 
 	//Imgui
 	ImGui_Logic::Render();
