@@ -43,7 +43,7 @@ bool ModuleUI::CleanUp()
 GameObject* ModuleUI::CreateUI(UIType GOtype)
 {
 	GameObject* GO = new GameObject();
-
+	GO->type = GOtype::UI;
 	ComponentMesh* cm = new ComponentMesh();
 	Mesh* m = nullptr;
 
