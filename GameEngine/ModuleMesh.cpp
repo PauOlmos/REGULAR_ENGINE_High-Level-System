@@ -156,7 +156,6 @@ void ModuleMesh::LoadMesh(Mesh* mesh)
 
 void ModuleMesh::RenderScene()
 {
-
 	renderedSceneMeshes = 0;
 
 	//Render SCENE

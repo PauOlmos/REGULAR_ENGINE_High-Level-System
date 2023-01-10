@@ -176,32 +176,25 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		//Only polygon fill
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-		//Bind buffer
+		App->meshRenderer->RenderScene();
+
 		BindCameraBuffer(mainGameCamera);
 
-		//Render Game Camera
+		App->UI->UICam->frustum.pos = { 0,0,-1.0 };
+
 		App->meshRenderer->RenderGameWindow();
-		glBindFramebuffer(GL_FRAMEBUFFER, mainGameCamera->frameBuffer);
-
-		glDisable(GL_DEPTH);
-
-		mainGameCamera->frustum.pos = { 0,0,-1.0 };
-		mainGameCamera->frustum.type = OrthographicFrustum;
-		App->renderer3D->BindCameraBuffer(mainGameCamera);
-		mainGameCamera->frustum.type = PerspectiveFrustum;
 
 		App->meshRenderer->RenderUI();
 
-		glEnable(GL_DEPTH);
-
-
+		/*
+		mainGameCamera->frustum.pos = { 0,0,-1.0 };
+		mainGameCamera->frustum.type = OrthographicFrustum;
+		App->renderer3D->BindCameraBuffer(mainGameCamera);
+		mainGameCamera->frustum.type = PerspectiveFrustum;*/
 	}
 
 	//FrameBuffer clean binding
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	//Render Meshes
-	App->meshRenderer->RenderScene();
 
 	//Render GAME CAMERA
 
