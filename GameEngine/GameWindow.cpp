@@ -2,6 +2,7 @@
 #include "imgui.h"
 #include "HeaderMenu.h"
 #include "ComponentCamera.h"
+#include "ComponentTexture.h"
 #include "ComponentMesh.h"
 #include "Transform.h"
 #include "SceneWindow.h"
@@ -56,16 +57,32 @@ void GameWindows::PrintCamera(Application* app)
 
 		if (app->UI->whichMesh >= 0) {
 			klk = app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject;
+			if (klk->type == GOtype::UI_BUTTON && app->UI->count == 0) {
+				ComponentTexture* ct = klk->GetComponent<ComponentTexture>();
+				klk->activeState = !klk->activeState;
+				app->UI->count = 1;
+				if (klk->activeState == true) {
+					app->input->HandlePath("Assets/green.png");
+				}
+				else {
+					app->input->HandlePath("Assets/red.png");
+				}
+
+			}
+			
 			app->UI->movingAny = true;
 		}
 		else app->UI->movingAny = false;
+		if (klk != nullptr) {
+			if (klk->Dragable) {
+				if (klk != nullptr && app->UI->mouse_x_aux != 0) {
+					float x = klk->transform->getPosition().x - (mouse_x - app->UI->mouse_x_aux) / 500.0f;
+					float y = klk->transform->getPosition().y - (mouse_y - app->UI->mouse_y_aux) / 500.0f;
+					float z = klk->transform->getPosition().z;
 
-		if (klk != nullptr && app->UI->mouse_x_aux != 0) {
-			float x = klk->transform->getPosition().x - (mouse_x - app->UI->mouse_x_aux) / 500.0f;
-			float y = klk->transform->getPosition().y - (mouse_y - app->UI->mouse_y_aux) / 500.0f;
-			float z = klk->transform->getPosition().z;
-
-			app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->transform->setPosition({ x,y,z });
+					app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->transform->setPosition({ x,y,z });
+				}
+			}
 		}
 
 		SDL_GetMouseState(&app->UI->mouse_x_aux, &app->UI->mouse_y_aux);
@@ -77,6 +94,7 @@ void GameWindows::PrintCamera(Application* app)
 		PickedGOs.clear();
 	}
 	else {
+		app->UI->count = 0;
 		app->UI->mouse_x_aux = 0;
 		app->UI->mouse_y_aux = 0;
 	}

@@ -46,7 +46,7 @@ bool ModuleUI::CleanUp()
 GameObject* ModuleUI::CreateUI(UIType GOtype)
 {
 	GameObject* GO = new GameObject();
-	GO->type = GOtype::UI;
+	GO->Dragable = true;
 	ComponentMesh* cm = new ComponentMesh();
 	ComponentTexture* ct = new ComponentTexture();
 	//ct->SetTexture("Assets\crosshair.png");
@@ -54,8 +54,16 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 
 	switch (GOtype) {
 	case UIType::NORMAL:
-		GO->name = "Cube";
+		GO->name = "UI Plane";
 		m = Primitives::CreateCube();
+		GO->type = GOtype::UI_NORMAL;
+		break;
+	case UIType::BUTTON:
+		GO->name = "UI Button";
+		m = Primitives::CreateCube();
+		GO->type = GOtype::UI_BUTTON;
+		GO->AddComponent(ct);
+		ct->SetTexture("Assets/red.png");
 		break;
 	}
 
@@ -65,7 +73,6 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 	m->Mtype = MESHtype::UI;
 	cm->meshes.push_back(m);
 	GO->AddComponent(cm);
-	GO->AddComponent(ct);
 	Application::GetInstance()->meshRenderer->LoadMesh(m);
 	return GO;
 }
@@ -73,10 +80,10 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 GameObject* ModuleUI::CreateUICrosshair(UIType GOtype)
 {
 	GameObject* GO = new GameObject();
-	GO->type = GOtype::UI;
+	GO->type = GOtype::UI_NORMAL;
+	GO->Dragable = true;
 	ComponentMesh* cm = new ComponentMesh();
 	ComponentTexture* ct = new ComponentTexture();
-	//ct->SetTexture("Assets\crosshair.png");
 	Mesh* m = nullptr;
 
 	switch (GOtype) {

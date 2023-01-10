@@ -98,6 +98,9 @@ void HMenu::PrintMenu(Application* app)
 			if (ImGui::MenuItem(" Basic Element ")) {
 				ModuleUI::CreateUI(UIType::NORMAL);
 			}
+			if (ImGui::MenuItem(" Button Element ")) {
+				ModuleUI::CreateUI(UIType::BUTTON);
+			}
 
 			ImGui::EndMenu();
 		}
