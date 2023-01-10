@@ -3,6 +3,7 @@
 #include "ModuleMesh.h"
 #include "ComponentMesh.h"
 #include "Primitives.h"
+#include "ComponentCamera.h"
 
 ModuleUI::ModuleUI(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -14,7 +15,7 @@ ModuleUI::~ModuleUI()
 
 bool ModuleUI::Start()
 {
-	UICam = new UICameraComponent();
+	UICam = new CameraComponent(ComponentType::UICAMERA);
 	UICam->frustum.pos = float3( 0,0,0 );
 	return UPDATE_CONTINUE;
 }
@@ -43,6 +44,7 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 {
 	GameObject* GO = new GameObject();
 
+	ComponentMesh* cm = new ComponentMesh();
 	Mesh* m = nullptr;
 
 	switch (GOtype) {
@@ -56,8 +58,10 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 
 	//Create AABB box
 	m->InitAABB();
-
-	Application::GetInstance()->meshRenderer->meshesUI.push_back(m);
+	m->Mtype = MESHtype::UI;
+	cm->meshes.push_back(m);
+	GO->AddComponent(cm);
+	Application::GetInstance()->meshRenderer->LoadMesh(m);
 	return GO;
 }
 

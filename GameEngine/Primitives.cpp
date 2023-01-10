@@ -17,7 +17,7 @@ GameObject* Primitives::CreatePrimitive(Shapes shape)
 	if (shape == Shapes::CAMERA)
 	{
 		GO->name = "Camera";
-		CameraComponent* cc = new CameraComponent();
+		CameraComponent* cc = new CameraComponent(ComponentType::CAMERA);
 		GO->AddComponent(cc);
 		return GO;
 	}

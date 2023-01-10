@@ -14,6 +14,10 @@ using namespace std;
 
 #define VERTEX_ARGUMENTS 5
 
+enum class MESHtype {
+	UI, NOTUI
+};
+
 struct Mesh {
 	~Mesh();
 	Mesh() {}
@@ -31,6 +35,8 @@ struct Mesh {
 	AABB AABB_box;
 	OBB OBB_box;
 	AABB Global_AABB_box;
+
+	MESHtype Mtype;
 
 	void InitAABB();
 	void RenderAABB();

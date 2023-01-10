@@ -54,7 +54,7 @@ float* UICameraComponent::GetProjetionMatrix()
 
 bool UICameraComponent::IsInsideFrustum(Mesh* mesh)
 {
-	float3 boxPoints[8];
+	/*float3 boxPoints[8];
 	Plane frustumPlanes[6];
 
 	mesh->Global_AABB_box.GetCornerPoints(boxPoints);
@@ -80,6 +80,7 @@ bool UICameraComponent::IsInsideFrustum(Mesh* mesh)
 	}
 
 	//AABB box is at least partially inside frustum
+	return true;*/
 	return true;
 }
 

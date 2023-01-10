@@ -11,7 +11,7 @@
 
 GameObject::GameObject(bool noParent)
 {
-	type = GOtype::NOTIU;
+	type = GOtype::NOTUI;
 	transform = new Transform();
 	transform->containerParent = this;
 	components.push_back(transform);
@@ -25,7 +25,7 @@ GameObject::GameObject(bool noParent)
 
 GameObject::GameObject(GameObject* Parent)
 {
-	type = GOtype::NOTIU;
+	type = GOtype::NOTUI;
 	transform = new Transform();
 	transform->containerParent = this;
 	components.push_back(transform);
@@ -69,11 +69,6 @@ void GameObject::PrintInspector()
 	HMenu::ThemeStylePopUp();
 
 	char* listComponents[]{ "Add Component", "Mesh Component", "Texture Component", "Camera Component",""};
-	listComponents[0] = { "Add Component", };
-	listComponents[1] = { "Texture Component", };
-	listComponents[2] = { "Button Component", };
-	listComponents[3] = { "Slide Component", };
-	listComponents[4] = { "Text Input Component", };
 	// "Mesh Component", "Texture Component", "Camera Component" };
 
 	ImGui::Begin("Inspector");
@@ -110,7 +105,7 @@ void GameObject::PrintInspector()
 		ImGui::SameLine(ImGui::GetWindowWidth() / 6);
 		if (ImGui::Combo("##AddComponent", &componentNum, listComponents, IM_ARRAYSIZE(listComponents))) //number of total components u can give to a GO
 		{
-			if (type == GOtype::NOTIU) {
+			if (type == GOtype::NOTUI) {
 				switch (componentNum) {
 				case 1:
 				{
@@ -138,7 +133,7 @@ void GameObject::PrintInspector()
 				case 3:
 				{
 					if (GetComponent<CameraComponent>() == nullptr) {
-						CameraComponent* cc = new CameraComponent();
+						CameraComponent* cc = new CameraComponent(ComponentType::CAMERA);
 						AddComponent(cc);
 					}
 					else {
@@ -149,16 +144,14 @@ void GameObject::PrintInspector()
 				}
 			}
 			else {
+
+				listComponents[0] = { "Add Component", };
+				listComponents[1] = { "Texture Component", };
+				listComponents[2] = { "Button Component", };
+				listComponents[3] = { "Slide Component", };
+				listComponents[4] = { "Text Input Component", };
 				switch (componentNum) {
 				case 1:
-				{
-					/*
-					else {
-						LOG("Mesh Component already added, can't duplicate.")
-					}*/
-				}
-				break;
-				case 2:
 				{
 					if (GetComponent<ComponentTexture>() == nullptr) {
 						ComponentTexture* ct = new ComponentTexture();
@@ -169,9 +162,17 @@ void GameObject::PrintInspector()
 					}
 				}
 				break;
+				case 2:
+				{
+					
+				}
+				break;
 				case 3:
 				{
+					
+
 				}
+				break;
 				case 4:
 				{
 

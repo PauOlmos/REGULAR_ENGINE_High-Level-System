@@ -11,7 +11,7 @@ class ComponentMesh;
 class CameraComponent;
 
 enum class GOtype {
-	UI,NOTIU
+	UI,NOTUI
 };
 
 class GameObject {

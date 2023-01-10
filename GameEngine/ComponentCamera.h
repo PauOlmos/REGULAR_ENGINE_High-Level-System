@@ -8,7 +8,7 @@ class ComponentMesh;
 class CameraComponent : public Component
 {
 public:
-	CameraComponent();
+	CameraComponent(ComponentType Ctype);
 	~CameraComponent();
 
 	void PrintInspector();
@@ -39,10 +39,10 @@ public:
 
 	unsigned int cameraBuffer;
 	unsigned int frameBuffer;
+	unsigned int renderObjBuffer;
 
 private:
 	float4x4 viewMatrix;
 	float4x4 projectionMatrix;
 
-	unsigned int renderObjBuffer;
 };

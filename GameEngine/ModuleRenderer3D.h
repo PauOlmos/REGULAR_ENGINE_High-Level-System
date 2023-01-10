@@ -30,7 +30,7 @@ public:
 	void SetMainCamera(CameraComponent* cam);
 	CameraComponent* GetMainCamera();
 
-private:
+public:
 	void BindCameraBuffer(CameraComponent* cc);
 
 public:

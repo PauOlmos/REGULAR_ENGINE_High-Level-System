@@ -5,14 +5,22 @@
 #include "Application.h"
 #include "ModuleMesh.h"
 
-CameraComponent::CameraComponent()
+CameraComponent::CameraComponent(ComponentType Ctype)
 {
 	//Component
-	type = ComponentType::CAMERA;
+	if (Ctype == ComponentType::CAMERA) {
+		type = ComponentType::CAMERA;
+		frustum.type = PerspectiveFrustum;
+	}
+	else if(Ctype == ComponentType::UICAMERA)
+	{
+
+		type = ComponentType::UICAMERA;
+		frustum.type = OrthographicFrustum;
+	}
 	containerParent = nullptr;
 
 	//Frustum
-	frustum.type = PerspectiveFrustum;
 	frustum.nearPlaneDistance = nearDistance;
 	frustum.farPlaneDistance = farDistance; //inspector
 	frustum.front = float3::unitZ;

@@ -18,7 +18,7 @@ bool ModuleCamera3D::Start()
 	LOGT(LogsType::SYSTEMLOG, "Setting up the camera");
 
 	//Camera
-	cam = new CameraComponent();
+	cam = new CameraComponent(ComponentType::CAMERA);
 	cam->frustum.pos = float3(0, 0, -10);
 
 	return true;

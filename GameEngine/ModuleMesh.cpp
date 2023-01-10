@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleMesh.h"
 #include "ModuleTextures.h"
+#include "ModuleRenderer3D.h"
 
 #include "ComponentCamera.h"
 #include "HeaderMenu.h"
@@ -143,11 +144,19 @@ void ModuleMesh::LoadMesh(Mesh* mesh)
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	//Add mesh to meshes vector
-	meshess.push_back(mesh);
+
+	if (mesh->Mtype == MESHtype::UI) {
+		meshesUI.push_back(mesh);
+		//meshess.push_back(mesh);
+	}
+	else {
+		meshess.push_back(mesh);
+	}
 }
 
 void ModuleMesh::RenderScene()
 {
+
 	renderedSceneMeshes = 0;
 
 	//Render SCENE
@@ -161,7 +170,13 @@ void ModuleMesh::RenderScene()
 		renderedSceneMeshes++;
 	}
 
-	if (!HMenu::isBoundingBoxes) return;
+	//App->UI->UICam->PrintUI();
+
+
+	if (!HMenu::isBoundingBoxes) {
+
+		return;
+	}
 	//Debug Lines
 
 	//Raycast line
@@ -174,10 +189,6 @@ void ModuleMesh::RenderScene()
 		c->frustum.GetCornerPoints(corners);
 		App->renderer3D->DrawBox(corners, float3(1, 0, 0));
 	}
-
-	//glDisable(GL_DEPTH);
-
-
 
 }
 
@@ -193,14 +204,12 @@ void ModuleMesh::RenderGameWindow()
 		renderedGameMeshes++;
 	}
 
-
 }
 
 void ModuleMesh::RenderUI()
 {
 	for (int i = 0; i < meshesUI.size(); i++) {
 		if (!App->renderer3D->GetMainCamera()->IsInsideFrustum(meshesUI[i])) continue;
-
 		meshesUI[i]->Render();
 	}
 }

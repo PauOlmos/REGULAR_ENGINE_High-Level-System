@@ -11,8 +11,7 @@ enum class UIType {
 class ModuleUI : public Module
 {
 public:
-	UICameraComponent* UIcc = new UICameraComponent();
-	UICameraComponent* UICam;
+	CameraComponent* UICam;
 
 	ModuleUI(Application* app, bool start_enabled = true);
 

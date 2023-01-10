@@ -135,8 +135,6 @@ bool ModuleRenderer3D::Init()
 bool ModuleRenderer3D::Start()
 {
 	ImGui_Logic::Start();
-	GameObject* GhostCam = new GameObject();
-	//GhostCam->AddComponent(UIcc);
 	return true;
 }
 
@@ -174,32 +172,39 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	//Render Meshes
-	App->meshRenderer->RenderScene();
-
-	//Render GAME CAMERA
 	if (mainGameCamera != nullptr) {
 		//Only polygon fill
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 		//Bind buffer
+
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glDisable(GL_DEPTH);
+
+		App->UI->UICam->frustum.pos = { 0,0,-1.0 };
+
+		App->renderer3D->BindCameraBuffer(App->UI->UICam);
+
+		App->meshRenderer->RenderUI();
+
+		glEnable(GL_DEPTH);
+
+
 		BindCameraBuffer(mainGameCamera);
 
 		//Render Game Camera
 		App->meshRenderer->RenderGameWindow();
 
-		//Bind UI proj and view matrix
-		glMatrixMode(GL_PROJECTION);
-		glLoadMatrixf(App->UI->UICam->GetProjetionMatrix());
-
-		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(App->UI->UICam->GetViewMatrix());
-		
-		App->UI->UICam->PrintUI();
 	}
 
 	//FrameBuffer clean binding
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	//Render Meshes
+	App->meshRenderer->RenderScene();
+
+	//Render GAME CAMERA
 
 
 	//Imgui
@@ -233,6 +238,9 @@ void ModuleRenderer3D::BindCameraBuffer(CameraComponent* cc)
 	//Bind game camera framebuffer
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(cc->GetProjetionMatrix());
+	/*if (cc->frustum.type == OrthographicFrustum) {
+		glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+	}*/
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(cc->GetViewMatrix());
