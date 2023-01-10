@@ -65,6 +65,12 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 		GO->AddComponent(ct);
 		ct->SetTexture("Assets/red.png");
 		break;
+	case UIType::BUTTON:
+		GO->name = "UI Button";
+		m = Primitives::CreateCube();
+		GO->type = GOtype::UI_BUTTON;
+		GO->AddComponent(ct);
+		break;
 	}
 
 	m->myGameObject = GO;

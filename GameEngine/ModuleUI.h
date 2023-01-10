@@ -29,7 +29,7 @@ public:
 
 	int count = 0;
 
-	int wtf = 0;
+	bool released = false;
 
 	int mouse_x_aux = 0, mouse_y_aux = 0;
 

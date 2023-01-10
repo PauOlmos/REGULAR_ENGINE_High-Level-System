@@ -23,6 +23,7 @@ public:
 	
 	bool Dragable = false;
 	bool activeState = false;
+	bool released = false;
 
 	bool isEnabled = true;
 	bool killMe = false;

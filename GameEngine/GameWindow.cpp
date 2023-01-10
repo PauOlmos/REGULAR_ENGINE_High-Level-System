@@ -67,9 +67,12 @@ void GameWindows::PrintCamera(Application* app)
 				else {
 					app->input->HandlePath("Assets/red.png");
 				}
-
 			}
-			
+			if (klk->type == GOtype::UI_BUTTON && app->UI->released == false) {
+				ComponentTexture* ct = klk->GetComponent<ComponentTexture>();
+				app->input->HandlePath("Assets/yellow.png");
+				app->UI->released = true;
+			}
 			app->UI->movingAny = true;
 		}
 		else app->UI->movingAny = false;
@@ -79,7 +82,6 @@ void GameWindows::PrintCamera(Application* app)
 					float x = klk->transform->getPosition().x - (mouse_x - app->UI->mouse_x_aux) / 500.0f;
 					float y = klk->transform->getPosition().y - (mouse_y - app->UI->mouse_y_aux) / 500.0f;
 					float z = klk->transform->getPosition().z;
-
 					app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->transform->setPosition({ x,y,z });
 				}
 			}
@@ -98,7 +100,10 @@ void GameWindows::PrintCamera(Application* app)
 		app->UI->mouse_x_aux = 0;
 		app->UI->mouse_y_aux = 0;
 	}
-
+	if (!(mouse_state & SDL_BUTTON(SDL_BUTTON_LEFT))) {
+		app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->GetComponent<ComponentTexture>()->ResetTexture();
+		app->UI->released = false;
+	}
 	ImGui::End();
 	ImGui::PopStyleVar();
 	//ImGui::Render();

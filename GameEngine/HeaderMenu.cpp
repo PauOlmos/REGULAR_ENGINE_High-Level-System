@@ -101,6 +101,9 @@ void HMenu::PrintMenu(Application* app)
 			if (ImGui::MenuItem(" CheckBox Element ")) {
 				ModuleUI::CreateUI(UIType::CHECKBOX);
 			}
+			if (ImGui::MenuItem(" Button Element ")) {
+				ModuleUI::CreateUI(UIType::BUTTON);
+			}
 
 			ImGui::EndMenu();
 		}

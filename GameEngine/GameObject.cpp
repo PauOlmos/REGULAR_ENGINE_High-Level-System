@@ -88,7 +88,7 @@ void GameObject::PrintInspector()
 
 		if(ImGui::IsKeyDown(ImGuiKey_Enter)) name = aux;
 
-		if (type == GOtype::UI_NORMAL || type == GOtype::UI_CHECKBOX) ImGui::Checkbox("Dragable", &Dragable);
+		if (type != GOtype::NOTUI) ImGui::Checkbox("Dragable", &Dragable);
 
 		if (type == GOtype::UI_CHECKBOX) {
 			ImGui::Checkbox("ActiveState", &activeState);
@@ -97,7 +97,6 @@ void GameObject::PrintInspector()
 		for (size_t i = 0; i < components.size(); i++)
 		{
 			ImGui::Separator();
-
 			components[i]->PrintInspector();
 		}
 
@@ -144,43 +143,6 @@ void GameObject::PrintInspector()
 					else {
 						LOG("Camera Component already added, can't duplicate.")
 					}
-				}
-				break;
-				}
-			}
-			else {
-
-				listComponents[0] = { "Add Component", };
-				listComponents[1] = { "Texture Component", };
-				listComponents[2] = { "Button Component", };
-				listComponents[3] = { "Slide Component", };
-				listComponents[4] = { "Text Input Component", };
-				switch (componentNum) {
-				case 1:
-				{
-					if (GetComponent<ComponentTexture>() == nullptr) {
-						ComponentTexture* ct = new ComponentTexture();
-						AddComponent(ct);
-					}
-					else {
-						LOG("Texture Component already added, can't duplicate.")
-					}
-				}
-				break;
-				case 2:
-				{
-					
-				}
-				break;
-				case 3:
-				{
-					
-
-				}
-				break;
-				case 4:
-				{
-
 				}
 				break;
 				}
