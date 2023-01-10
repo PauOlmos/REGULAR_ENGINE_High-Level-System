@@ -9,9 +9,8 @@ class Transform;
 class ComponentTexture;
 class ComponentMesh;
 class CameraComponent;
-
 enum class GOtype {
-	UI,NOTUI
+	UI_BUTTON,UI_NORMAL,NOTUI
 };
 
 class GameObject {
@@ -21,6 +20,9 @@ public:
 	GameObject(GameObject* Parent);
 	~GameObject();
 	
+	bool Dragable = false;
+	bool activeState = false;
+
 	bool isEnabled = true;
 	bool killMe = false;
 	std::string name = "GameObject";

@@ -88,6 +88,7 @@ void GameObject::PrintInspector()
 
 		if(ImGui::IsKeyDown(ImGuiKey_Enter))
 		name = aux;
+		if (type == GOtype::UI_NORMAL || type == GOtype::UI_BUTTON) ImGui::Checkbox("Dragable", &Dragable);
 
 		for (size_t i = 0; i < components.size(); i++)
 		{
