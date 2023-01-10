@@ -57,7 +57,7 @@ void GameWindows::PrintCamera(Application* app)
 
 		if (app->UI->whichMesh >= 0) {
 			klk = app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject;
-			if (klk->type == GOtype::UI_BUTTON && app->UI->count == 0) {
+			if (klk->type == GOtype::UI_CHECKBOX && app->UI->count == 0) {
 				ComponentTexture* ct = klk->GetComponent<ComponentTexture>();
 				klk->activeState = !klk->activeState;
 				app->UI->count = 1;

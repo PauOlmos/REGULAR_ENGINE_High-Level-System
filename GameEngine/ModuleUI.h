@@ -4,7 +4,7 @@
 #include "GameObject.h"
 
 enum class UIType {
-	NORMAL,BUTTON,SLIDER,TEXT_INPUT
+	NORMAL,BUTTON,SLIDER,TEXT_INPUT,CHECKBOX
 };
 
 class ModuleUI : public Module

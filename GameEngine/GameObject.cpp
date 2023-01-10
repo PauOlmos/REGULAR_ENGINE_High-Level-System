@@ -86,9 +86,13 @@ void GameObject::PrintInspector()
 		//input the name of the Game Object
 		ImGui::InputText("##Name", aux, 255, ImGuiInputTextFlags_EnterReturnsTrue);
 
-		if(ImGui::IsKeyDown(ImGuiKey_Enter))
-		name = aux;
-		if (type == GOtype::UI_NORMAL || type == GOtype::UI_BUTTON) ImGui::Checkbox("Dragable", &Dragable);
+		if(ImGui::IsKeyDown(ImGuiKey_Enter)) name = aux;
+
+		if (type == GOtype::UI_NORMAL || type == GOtype::UI_CHECKBOX) ImGui::Checkbox("Dragable", &Dragable);
+
+		if (type == GOtype::UI_CHECKBOX) {
+			ImGui::Checkbox("ActiveState", &activeState);
+		}
 
 		for (size_t i = 0; i < components.size(); i++)
 		{

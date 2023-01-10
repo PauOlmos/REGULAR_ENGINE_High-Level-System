@@ -58,10 +58,10 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 		m = Primitives::CreateCube();
 		GO->type = GOtype::UI_NORMAL;
 		break;
-	case UIType::BUTTON:
-		GO->name = "UI Button";
+	case UIType::CHECKBOX:
+		GO->name = "UI CheckBox";
 		m = Primitives::CreateCube();
-		GO->type = GOtype::UI_BUTTON;
+		GO->type = GOtype::UI_CHECKBOX;
 		GO->AddComponent(ct);
 		ct->SetTexture("Assets/red.png");
 		break;

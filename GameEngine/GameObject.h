@@ -9,8 +9,9 @@ class Transform;
 class ComponentTexture;
 class ComponentMesh;
 class CameraComponent;
+
 enum class GOtype {
-	UI_BUTTON,UI_NORMAL,NOTUI
+	UI_CHECKBOX,UI_BUTTON,UI_NORMAL,NOTUI
 };
 
 class GameObject {
@@ -69,6 +70,7 @@ private:
 	std::vector<Component*> components;
 
 	char aux[255] = {' '};
+
 	char listComponenets[255] = {' '};
 
 	int componentNum = 0;
