@@ -179,7 +179,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 		BindCameraBuffer(mainGameCamera);
 
-		App->UI->UICam->frustum.pos = { 0,0,-1.0 };
+		//App->UI->UICam->frustum.pos = { 0,0,-1.0 };
 
 		App->meshRenderer->RenderGameWindow();
 		
@@ -188,8 +188,9 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		mainGameCamera->frustum.pos = { 0,0,0 };
 		mainGameCamera->frustum.type = OrthographicFrustum;
 		App->renderer3D->BindCameraBuffer(mainGameCamera);
-		mainGameCamera->frustum.type = PerspectiveFrustum;
 		App->meshRenderer->RenderUI();
+
+		//mainGameCamera->frustum.type = PerspectiveFrustum;
 
 	}
 

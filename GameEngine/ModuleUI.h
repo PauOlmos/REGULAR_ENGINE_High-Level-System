@@ -23,6 +23,14 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
+	bool movingAny = false;
+
+	int whichMesh = NULL;
+
+	int wtf = 0;
+
+	int mouse_x_aux = 0, mouse_y_aux = 0;
+
 	static GameObject* CreateUI(UIType GOtype);
 	static GameObject* CreateUICrosshair(UIType GOtype);
 

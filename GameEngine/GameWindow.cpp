@@ -5,6 +5,7 @@
 #include "ComponentMesh.h"
 #include "Transform.h"
 #include "SceneWindow.h"
+#include "ModuleUI.h"
 
 ImVec2 GameWindows::sizeWindScn = { 0,0 };
 
@@ -22,16 +23,21 @@ void GameWindows::PrintCamera(Application* app)
 	//Get uv's offset proportionate to image
 	float uvOffset = (sizeWindScn.x - newWinSize.x) / 2.0f;
 	uvOffset /= newWinSize.x;
-
 	//Print image (window size), modify UV's to match 
 	if(app->renderer3D->GetMainCamera() != nullptr)
 		ImGui::Image((ImTextureID)app->renderer3D->GetMainCamera()->cameraBuffer, sizeWindScn, ImVec2(-uvOffset, 1), ImVec2(1 + uvOffset, 0));
-	if (ImGui::IsMouseClicked(0) && app->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT && ImGui::IsWindowHovered())
+	
+	std::vector<GameObject*> PickedGOs;
+
+	int mouse_x, mouse_y;
+
+	Uint32 mouse_state = SDL_GetMouseState(&mouse_x, &mouse_y);
+
+	if ((mouse_state & SDL_BUTTON(SDL_BUTTON_LEFT)) && app->input->GetKey(SDL_SCANCODE_LALT) != KEY_REPEAT && ImGui::IsWindowHovered())
 	{
 		//Close GO options menu
 		app->hierarchy->openGOOptions = false;
 
-		std::vector<GameObject*> PickedGOs;
 		GameObject* klk = nullptr;
 
 		ImVec2 mousePos = ImGui::GetMousePos();
@@ -46,23 +52,42 @@ void GameWindows::PrintCamera(Application* app)
 		app->meshRenderer->debugRaycastA = picking.a;
 		app->meshRenderer->debugRaycastB = picking.b;
 
-		klk = MPUI(picking, app->meshRenderer->meshesUI);
+		app->UI->whichMesh = MPUI(picking, app->meshRenderer->meshesUI);
+
+		if (app->UI->whichMesh >= 0) {
+			klk = app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject;
+			app->UI->movingAny = true;
+		}
+		else app->UI->movingAny = false;
+
+		if (klk != nullptr && app->UI->mouse_x_aux != 0) {
+			float x = klk->transform->getPosition().x - (mouse_x - app->UI->mouse_x_aux) / 500.0f;
+			float y = klk->transform->getPosition().y - (mouse_y - app->UI->mouse_y_aux) / 500.0f;
+			float z = klk->transform->getPosition().z;
+
+			app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->transform->setPosition({ x,y,z });
+		}
+
+		SDL_GetMouseState(&app->UI->mouse_x_aux, &app->UI->mouse_y_aux);
 
 		PickedGOs.push_back(klk);
 
 		app->hierarchy->SetGameObjectSelected(klk);
-
-
 		if (PickedGOs.size() == 0) app->hierarchy->SetGameObjectSelected(nullptr);
 		PickedGOs.clear();
 	}
+	else {
+		app->UI->mouse_x_aux = 0;
+		app->UI->mouse_y_aux = 0;
+	}
+
 	ImGui::End();
 	ImGui::PopStyleVar();
 	//ImGui::Render();
 	//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-GameObject* GameWindows::MPUI(LineSegment picking, vector<Mesh*> meshList) {
+int GameWindows::MPUI(LineSegment picking, vector<Mesh*> meshList){
 
 	for (size_t i = 0; i < meshList.size(); i++)
 	{
@@ -70,8 +95,8 @@ GameObject* GameWindows::MPUI(LineSegment picking, vector<Mesh*> meshList) {
 			&& picking.a.x > meshList[i]->myGameObject->transform->getScale().x * -0.07 - meshList[i]->myGameObject->transform->getPosition().x * 2 * -0.07
 			&& picking.a.y < meshList[i]->myGameObject->transform->getScale().y * 0.05 + meshList[i]->myGameObject->transform->getPosition().y * 2 * 0.06
 			&& picking.a.y > meshList[i]->myGameObject->transform->getScale().y * -0.05 - meshList[i]->myGameObject->transform->getPosition().y * 2 * -0.055) {
-			return meshList[i]->myGameObject;
+			return i;
 		}
 	}
-	return nullptr;
+	return -1;
 }
