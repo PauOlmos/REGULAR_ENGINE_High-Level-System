@@ -58,15 +58,6 @@ void SceneWindows::PrintScene(Application* app)
 					PickedGO.push_back(app->meshRenderer->meshess[i]->myGameObject);
 			}
 		}
-		for (size_t i = 0; i < app->meshRenderer->meshesUI.size(); i++)
-		{
-			if (picking.Intersects(app->meshRenderer->meshesUI[i]->OBB_box) && app->meshRenderer->meshesUI[i]->myGameObject->isEnabled)
-			{
-				if (app->meshRenderer->meshesUI[i]->myGameObject != nullptr)
-					PickedGO.push_back(app->meshRenderer->meshesUI[i]->myGameObject);
-			}
-		}
-
 
 		float currentDist;
 		float minDist = 0;
