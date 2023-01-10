@@ -183,14 +183,17 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		App->UI->UICam->frustum.pos = { 0,0,-1.0 };
 
 		App->meshRenderer->RenderGameWindow();
+		
+		//Descomentant de la línia 189/193 i comentant de la 181/185 es renderitza UI però no game
 
-		App->meshRenderer->RenderUI();
-
-		/*
-		mainGameCamera->frustum.pos = { 0,0,-1.0 };
+		/*mainGameCamera->frustum.pos = { 0,0,0 };
 		mainGameCamera->frustum.type = OrthographicFrustum;
 		App->renderer3D->BindCameraBuffer(mainGameCamera);
 		mainGameCamera->frustum.type = PerspectiveFrustum;*/
+		
+
+		App->meshRenderer->RenderUI();
+
 	}
 
 	//FrameBuffer clean binding
