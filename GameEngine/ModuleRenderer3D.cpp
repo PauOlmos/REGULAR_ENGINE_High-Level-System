@@ -186,6 +186,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		//Descomentant de la línia 189/193 i comentant de la 181/185 es renderitza UI però no game
 
 		mainGameCamera->frustum.pos = { 0,0,0 };
+		mainGameCamera->frustum.horizontalFov = 800;
+		mainGameCamera->frustum.verticalFov = 400;
 		mainGameCamera->frustum.type = OrthographicFrustum;
 		App->renderer3D->BindCameraBuffer(mainGameCamera);
 		App->meshRenderer->RenderUI();

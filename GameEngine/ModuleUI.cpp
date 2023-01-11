@@ -67,6 +67,8 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 			ct = new ComponentTexture();
 			Application::GetInstance()->hierarchy->selectedGameObj->AddComponent(ct);
 		}
+		GO->transform->setScale({ 350,300,1 });
+
 		ct->SetTexture("Assets/Baker_house.png");
 		break;
 	case UIType::CHECKBOX:
@@ -83,12 +85,13 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 			ct = new ComponentTexture();
 			Application::GetInstance()->hierarchy->selectedGameObj->AddComponent(ct);
 		}
+		GO->transform->setScale({ 200,200,1 });
 		ct->SetTexture("Assets/red.png");
 		break;
 	case UIType::BUTTON:
 		GO->name = "UI Button";
 		m = Primitives::CreateCube();
-		GO->transform->setScale({ 0.3,0.15,1 });
+		GO->transform->setScale({ 300,150,1 });
 		GO->type = GOtype::UI_BUTTON;
 		GO->AddComponent(ct);
 
@@ -130,7 +133,7 @@ GameObject* ModuleUI::CreateUICrosshair(UIType GOtype)
 	GO->AddComponent(cm);
 	GO->AddComponent(ct);
 	GO->transform->setPosition({ 0,0,0 });
-	GO->transform->setScale({ 0.1,0.1,1 });
+	GO->transform->setScale({ 100,100,1 });
 	Application::GetInstance()->meshRenderer->LoadMesh(m);
 	return GO;
 }

@@ -87,8 +87,8 @@ void GameWindows::PrintCamera(Application* app)
 		if (klk != nullptr) {
 			if (klk->Dragable && !app->IsRunning()) {
 				if (klk != nullptr && app->UI->mouse_x_aux != 0) {
-					float x = klk->transform->getPosition().x - (mouse_x - app->UI->mouse_x_aux) / 500.0f;
-					float y = klk->transform->getPosition().y - (mouse_y - app->UI->mouse_y_aux) / 500.0f;
+					float x = klk->transform->getPosition().x - (mouse_x - app->UI->mouse_x_aux);
+					float y = klk->transform->getPosition().y - (mouse_y - app->UI->mouse_y_aux);
 					float z = klk->transform->getPosition().z;
 					app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->transform->setPosition({ x,y,z });
 				}
@@ -130,10 +130,10 @@ int GameWindows::MPUI(LineSegment picking, vector<Mesh*> meshList){
 
 	for (size_t i = 0; i < meshList.size(); i++)
 	{
-		if (picking.a.x <meshList[i]->myGameObject->transform->getScale().x * 0.07 + meshList[i]->myGameObject->transform->getPosition().x * 2 * 0.07
-			&& picking.a.x > meshList[i]->myGameObject->transform->getScale().x * -0.07 - meshList[i]->myGameObject->transform->getPosition().x * 2 * -0.07
-			&& picking.a.y < meshList[i]->myGameObject->transform->getScale().y * 0.05 + meshList[i]->myGameObject->transform->getPosition().y * 2 * 0.06
-			&& picking.a.y > meshList[i]->myGameObject->transform->getScale().y * -0.05 - meshList[i]->myGameObject->transform->getPosition().y * 2 * -0.055) {
+		if (picking.a.x < meshList[i]->myGameObject->transform->getPosition().x * 0.00024 + 0.045 * meshList[i]->myGameObject->transform->getScale().x / 350
+		&& picking.a.x > meshList[i]->myGameObject->transform->getPosition().x * 0.00024 - (0.045) * meshList[i]->myGameObject->transform->getScale().x / 350
+		&& picking.a.y < meshList[i]->myGameObject->transform->getPosition().y * 0.00024 + (0.043) * meshList[i]->myGameObject->transform->getScale().y / 300
+		&& picking.a.y > meshList[i]->myGameObject->transform->getPosition().y * 0.00024 - (0.043) * meshList[i]->myGameObject->transform->getScale().y / 300) {
 			return i;
 		}
 	}

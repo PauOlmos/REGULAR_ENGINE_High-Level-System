@@ -92,9 +92,11 @@ void ModuleDummy::FirstStage() {
 }
 
 void ModuleDummy::SecondStage() {
-	firstMovY = App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->getPosition().y - 0.05f;
-	App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setPosition({ App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->getPosition().x,firstMovY,App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->getPosition().z });		secondMovY = App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->getPosition().y - 0.05f;		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->setPosition({ App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->getPosition().x,secondMovY,App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->getPosition().z });
-	if (secondMovY <= -2) {
+	firstMovY = App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->getPosition().y - 5.0f;
+	App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setPosition({ App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->getPosition().x,firstMovY,App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->getPosition().z });		
+	secondMovY = App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->getPosition().y - 5.0f;		
+	App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->setPosition({ App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->getPosition().x,secondMovY,App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->getPosition().z });
+	if (secondMovY <= -500) {
 		secondStageStarted = false;
 		App->UI->CreateUICrosshair(UIType::NORMAL);
 		finalStage = true;
@@ -111,11 +113,10 @@ void ModuleDummy::VsyncStage()
 	else {
 		App->UI->CreateUI(UIType::CHECKBOX);
 		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->subname = "VsyncButton";
-		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setScale({0.2,0.2,1});
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setScale({200,200,1});
 		App->UI->CreateUI(UIType::NORMAL);
-		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setScale({ 1,1,1 });
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setScale({ 300,300,1 });
 		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 3]->myGameObject->transform->setPosition({ 1000,1000,1000 });
-		//App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 3]->myGameObject->transform->setPosition({ 0,0,1 });
 	}
 }
 
@@ -129,7 +130,6 @@ void ModuleDummy::VsyncStageDisable()
 update_status ModuleDummy::PostUpdate(float dt)
 {
 	update_status ret = UPDATE_CONTINUE;
-
 	HMenu::ThemeStyleWind();
 	HMenu::ThemeStyleMenuBar();
 	HMenu::ThemeStylePopUp();

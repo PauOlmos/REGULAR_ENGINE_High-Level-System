@@ -209,7 +209,7 @@ void ModuleMesh::RenderUI()
 {
 
 	for (int i = 0; i < meshesUI.size(); i++) {
-		if (!App->renderer3D->GetMainCamera()->IsInsideFrustum(meshesUI[i])) continue;
+		//if (!App->renderer3D->GetMainCamera()->IsInsideFrustum(meshesUI[i])) continue;
 		meshesUI[i]->Render();
 	}
 
