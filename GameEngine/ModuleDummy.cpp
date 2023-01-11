@@ -29,17 +29,8 @@ bool ModuleDummy::Start()
 	LOG("Testing");
 	bool ret = true;
 
-	/*GameObject* go = App->meshRenderer->LoadFile("Assets/BakerHouse.fbx");
-	for (int i = 0; i < go->childs.size(); i++) {
-		go->childs[i]->transform->setScale(float3::one);
-		go->childs[i]->transform->setRotation(float3::zero);
-	}*/
-
 	GameObject* go = App->meshRenderer->LoadFile("Assets/street/scene.DAE");
 	go->transform->setRotation(float3(0, 0, -90));
-
-	/*Primitives::CreatePrimitive(Shapes::CUBE)->transform->setPosition(float3(-3, 0, 0));
-	Primitives::CreatePrimitive(Shapes::SPHERE)->transform->setPosition(float3(3, 0, 0));*/
 
 	cameraController = Primitives::CreatePrimitive(Shapes::CAMERA);
 	cameraController->transform->setPosition(float3(0, 2, -10));
@@ -69,15 +60,70 @@ update_status ModuleDummy::Update(float dt)
 
 	if(cameraController->isChildFrom(App->hierarchy->rootHierarchy))
 	if (App->IsRunning()) {
-		angle += 50 * App->DTG();
+		if (!finalStage) {
+			FirstStage();
+			if (secondStageStarted) SecondStage();
+		}
+		else {
+			if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && VsyncStageActive == false) {
+				VsyncStage();
+			}
+			if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN && VsyncStageActive == true) {
+				VsyncStageDisable();
+			}
+			if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+				VsyncStageActive = !VsyncStageActive;
+			}
+			
 
-		cameraController->transform->setPosition(float3(cos(angle * DEGTORAD) * -80, 20, sin(angle * DEGTORAD) * -80));
-		cameraController->transform->setRotation(float3(-30, angle - 90, 0));
-
-		if (angle > 360.0f) angle -= 360.0f;
+		}
 	}
 
 	return ret;
+}
+
+void ModuleDummy::FirstStage() {
+	if (justOnce == false) {
+		App->UI->CreateUI(UIType::BUTTON);
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->subname = "ClearFirstStage";
+		App->UI->CreateUI(UIType::NORMAL);
+		justOnce = true;
+	}
+}
+
+void ModuleDummy::SecondStage() {
+	firstMovY = App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->getPosition().y - 0.05f;
+	App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setPosition({ App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->getPosition().x,firstMovY,App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->getPosition().z });		secondMovY = App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->getPosition().y - 0.05f;		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->setPosition({ App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->getPosition().x,secondMovY,App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->getPosition().z });
+	if (secondMovY <= -2) {
+		secondStageStarted = false;
+		App->UI->CreateUICrosshair(UIType::NORMAL);
+		finalStage = true;
+	}
+}
+
+void ModuleDummy::VsyncStage()
+{
+	if (App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->subname == "VsyncButton") {
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 3]->myGameObject->transform->setPosition({ 1000,1000,1 });
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setPosition({ 0,0,1 });
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->setPosition({ 0,0,1 });
+	}
+	else {
+		App->UI->CreateUI(UIType::CHECKBOX);
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->subname = "VsyncButton";
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setScale({0.2,0.2,1});
+		App->UI->CreateUI(UIType::NORMAL);
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setScale({ 1,1,1 });
+		App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 3]->myGameObject->transform->setPosition({ 1000,1000,1000 });
+		//App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 3]->myGameObject->transform->setPosition({ 0,0,1 });
+	}
+}
+
+void ModuleDummy::VsyncStageDisable()
+{
+	App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 1]->myGameObject->transform->setPosition({1000,1000,1});
+	App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 2]->myGameObject->transform->setPosition({1000,1000,1});
+	App->meshRenderer->meshesUI[App->meshRenderer->meshesUI.size() - 3]->myGameObject->transform->setPosition({0,0,1});
 }
 
 update_status ModuleDummy::PostUpdate(float dt)

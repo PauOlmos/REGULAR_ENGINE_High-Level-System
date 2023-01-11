@@ -25,6 +25,9 @@ public:
 	bool activeState = false;
 	bool released = false;
 
+	std::string subname;
+
+
 	bool isEnabled = true;
 	bool killMe = false;
 	std::string name = "GameObject";

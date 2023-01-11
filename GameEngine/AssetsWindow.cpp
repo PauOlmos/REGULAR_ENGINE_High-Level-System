@@ -336,32 +336,6 @@ void AssetsWindows::PrintAssets()
 			fileHovered = file.path;
 		}
 
-		/*if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup))
-		{
-			if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceExtern))
-			{
-				FileInfo dragFile = (FileInfo)fileHovered;
-
-				ImGui::SetDragDropPayload("FileInfo", &file, sizeof(FileInfo*));
-				ImGui::Text(file.name.c_str());
-				ImGui::Text(fileHovered.c_str());
-
-
-				ImGui::EndDragDropSource();
-			}
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* imGuiPayLoadFiles = ImGui::AcceptDragDropPayload("FileInfo"))
-				{
-					if(file.path != fileHovered)
-						LOG("DROP");
-					//MoveFileToFront(dragFile);
-
-				}
-				ImGui::EndDragDropTarget();
-			}
-		}*/
-
 		ImGui::Separator();
 	}
 

@@ -2,6 +2,7 @@
 #include "ModuleUI.h"
 #include "ModuleMesh.h"
 #include "ComponentMesh.h"
+#include "Hierarchy.h"
 #include "ComponentTexture.h"
 #include "Primitives.h"
 #include "ComponentCamera.h"
@@ -19,7 +20,6 @@ bool ModuleUI::Start()
 {
 	UICam = new CameraComponent(ComponentType::UICAMERA);
 	UICam->frustum.pos = float3( 0,0,0 );
-	CreateUICrosshair(UIType::NORMAL);
 	return UPDATE_CONTINUE;
 }
 
@@ -57,19 +57,41 @@ GameObject* ModuleUI::CreateUI(UIType GOtype)
 		GO->name = "UI Plane";
 		m = Primitives::CreateCube();
 		GO->type = GOtype::UI_NORMAL;
+		GO->AddComponent(ct);
+		Application::GetInstance()->hierarchy->selectedGameObj = GO;
+		if (Application::GetInstance()->hierarchy->selectedGameObj != nullptr) {
+
+			ComponentTexture* ct = Application::GetInstance()->hierarchy->selectedGameObj->GetComponent<ComponentTexture>();
+		}
+		if (ct == nullptr) {
+			ct = new ComponentTexture();
+			Application::GetInstance()->hierarchy->selectedGameObj->AddComponent(ct);
+		}
+		ct->SetTexture("Assets/Baker_house.png");
 		break;
 	case UIType::CHECKBOX:
 		GO->name = "UI CheckBox";
 		m = Primitives::CreateCube();
-		GO->type = GOtype::UI_CHECKBOX;
+		GO->type = GOtype::UI_CHECKBOX; 
 		GO->AddComponent(ct);
+		Application::GetInstance()->hierarchy->selectedGameObj = GO;
+		if (Application::GetInstance()->hierarchy->selectedGameObj != nullptr) {
+
+			ComponentTexture* ct = Application::GetInstance()->hierarchy->selectedGameObj->GetComponent<ComponentTexture>();
+		}
+		if (ct == nullptr) {
+			ct = new ComponentTexture();
+			Application::GetInstance()->hierarchy->selectedGameObj->AddComponent(ct);
+		}
 		ct->SetTexture("Assets/red.png");
 		break;
 	case UIType::BUTTON:
 		GO->name = "UI Button";
 		m = Primitives::CreateCube();
+		GO->transform->setScale({ 0.3,0.15,1 });
 		GO->type = GOtype::UI_BUTTON;
 		GO->AddComponent(ct);
+
 		break;
 	}
 

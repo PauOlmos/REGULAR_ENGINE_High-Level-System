@@ -25,9 +25,9 @@ void GameWindows::PrintCamera(Application* app)
 	float uvOffset = (sizeWindScn.x - newWinSize.x) / 2.0f;
 	uvOffset /= newWinSize.x;
 	//Print image (window size), modify UV's to match 
-	if(app->renderer3D->GetMainCamera() != nullptr)
+	if (app->renderer3D->GetMainCamera() != nullptr)
 		ImGui::Image((ImTextureID)app->renderer3D->GetMainCamera()->cameraBuffer, sizeWindScn, ImVec2(-uvOffset, 1), ImVec2(1 + uvOffset, 0));
-	
+
 	std::vector<GameObject*> PickedGOs;
 
 	int mouse_x, mouse_y;
@@ -62,22 +62,30 @@ void GameWindows::PrintCamera(Application* app)
 				klk->activeState = !klk->activeState;
 				app->UI->count = 1;
 				if (klk->activeState == true) {
-					app->input->HandlePath("Assets/green.png");
+					ct->SetTexture("Assets/green.png");
 				}
 				else {
-					app->input->HandlePath("Assets/red.png");
+					ct->SetTexture("Assets/red.png");
+				}
+				if (klk->subname == "VsyncButton") {
+					SDL_GL_SetSwapInterval(klk->activeState);
+					LOGT(LogsType::SYSTEMLOG, "Vsync active: %d", klk->activeState);
 				}
 			}
 			if (klk->type == GOtype::UI_BUTTON && app->UI->released == false) {
 				ComponentTexture* ct = klk->GetComponent<ComponentTexture>();
-				app->input->HandlePath("Assets/yellow.png");
+				ct->SetTexture("Assets/yellow.png");
+				//DOSMTH
+				if (klk->subname == "ClearFirstStage") {
+					ButtonAction();
+				}
 				app->UI->released = true;
 			}
 			app->UI->movingAny = true;
 		}
 		else app->UI->movingAny = false;
 		if (klk != nullptr) {
-			if (klk->Dragable) {
+			if (klk->Dragable && !app->IsRunning()) {
 				if (klk != nullptr && app->UI->mouse_x_aux != 0) {
 					float x = klk->transform->getPosition().x - (mouse_x - app->UI->mouse_x_aux) / 500.0f;
 					float y = klk->transform->getPosition().y - (mouse_y - app->UI->mouse_y_aux) / 500.0f;
@@ -100,14 +108,22 @@ void GameWindows::PrintCamera(Application* app)
 		app->UI->mouse_x_aux = 0;
 		app->UI->mouse_y_aux = 0;
 	}
-	if (!(mouse_state & SDL_BUTTON(SDL_BUTTON_LEFT))) {
-		app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->GetComponent<ComponentTexture>()->ResetTexture();
-		app->UI->released = false;
-	}
+	if (app->UI->whichMesh != -1 && app->meshRenderer->meshesUI.size()>0){
+
+		if (!(mouse_state & SDL_BUTTON(SDL_BUTTON_LEFT)) && app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->type == GOtype::UI_BUTTON) {
+			app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->GetComponent<ComponentTexture>()->ResetTexture();
+			app->UI->released = false;
+		}
+}
+
 	ImGui::End();
 	ImGui::PopStyleVar();
 	//ImGui::Render();
 	//ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void GameWindows::ButtonAction() {
+	Application::GetInstance()->dummy->secondStageStarted = true;
 }
 
 int GameWindows::MPUI(LineSegment picking, vector<Mesh*> meshList){

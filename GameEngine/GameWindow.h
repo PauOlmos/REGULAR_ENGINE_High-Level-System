@@ -8,6 +8,8 @@ class GameWindows
 public:
 	static void PrintCamera(Application* app);
 
+	static void ButtonAction();
+
 	static int MPUI(LineSegment picking, vector<Mesh*> meshList);
 
 private:

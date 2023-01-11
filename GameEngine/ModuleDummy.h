@@ -22,8 +22,20 @@ public:
 	bool Start();
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
+	void FirstStage();
+	void SecondStage();
+	void VsyncStage();
+	void VsyncStageDisable();
 	update_status PostUpdate(float dt);
 	bool CleanUp();
+
+	bool justOnce = false;
+	bool secondStageStarted = false;
+	bool finalStage = false;
+	bool VsyncStageActive = false;
+	float firstMovY = 0;
+	float secondMovY = 0;
+	//GameObject* firstMenuItem, secondMenuItem;
 
 private:
 	GameObject* cameraController;
