@@ -39,7 +39,7 @@ void GameWindows::PrintCamera(Application* app)
 		//Close GO options menu
 		app->hierarchy->openGOOptions = false;
 
-		GameObject* klk = nullptr;
+		GameObject* mousePickingAux = nullptr;
 
 		ImVec2 mousePos = ImGui::GetMousePos();
 
@@ -56,27 +56,27 @@ void GameWindows::PrintCamera(Application* app)
 		app->UI->whichMesh = MPUI(picking, app->meshRenderer->meshesUI);
 
 		if (app->UI->whichMesh >= 0) {
-			klk = app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject;
-			if (klk->type == GOtype::UI_CHECKBOX && app->UI->count == 0) {
-				ComponentTexture* ct = klk->GetComponent<ComponentTexture>();
-				klk->activeState = !klk->activeState;
+			mousePickingAux = app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject;
+			if (mousePickingAux->type == GOtype::UI_CHECKBOX && app->UI->count == 0) {
+				ComponentTexture* ct = mousePickingAux->GetComponent<ComponentTexture>();
+				mousePickingAux->activeState = !mousePickingAux->activeState;
 				app->UI->count = 1;
-				if (klk->activeState == true) {
+				if (mousePickingAux->activeState == true) {
 					ct->SetTexture("Assets/green.png");
 				}
 				else {
 					ct->SetTexture("Assets/red.png");
 				}
-				if (klk->subname == "VsyncButton") {
-					SDL_GL_SetSwapInterval(klk->activeState);
-					LOGT(LogsType::SYSTEMLOG, "Vsync active: %d", klk->activeState);
+				if (mousePickingAux->subname == "VsyncButton") {
+					SDL_GL_SetSwapInterval(mousePickingAux->activeState);
+					LOGT(LogsType::SYSTEMLOG, "Vsync active: %d", mousePickingAux->activeState);
 				}
 			}
-			if (klk->type == GOtype::UI_BUTTON && app->UI->released == false) {
-				ComponentTexture* ct = klk->GetComponent<ComponentTexture>();
+			if (mousePickingAux->type == GOtype::UI_BUTTON && app->UI->released == false) {
+				ComponentTexture* ct = mousePickingAux->GetComponent<ComponentTexture>();
 				ct->SetTexture("Assets/yellow.png");
 				//DOSMTH
-				if (klk->subname == "ClearFirstStage") {
+				if (mousePickingAux->subname == "ClearFirstStage") {
 					ButtonAction();
 				}
 				app->UI->released = true;
@@ -84,12 +84,12 @@ void GameWindows::PrintCamera(Application* app)
 			app->UI->movingAny = true;
 		}
 		else app->UI->movingAny = false;
-		if (klk != nullptr) {
-			if (klk->Dragable && !app->IsRunning()) {
-				if (klk != nullptr && app->UI->mouse_x_aux != 0) {
-					float x = klk->transform->getPosition().x - (mouse_x - app->UI->mouse_x_aux);
-					float y = klk->transform->getPosition().y - (mouse_y - app->UI->mouse_y_aux);
-					float z = klk->transform->getPosition().z;
+		if (mousePickingAux != nullptr) {
+			if (mousePickingAux->Dragable && !app->IsRunning()) {
+				if (mousePickingAux != nullptr && app->UI->mouse_x_aux != 0) {
+					float x = mousePickingAux->transform->getPosition().x - (mouse_x - app->UI->mouse_x_aux);
+					float y = mousePickingAux->transform->getPosition().y - (mouse_y - app->UI->mouse_y_aux);
+					float z = mousePickingAux->transform->getPosition().z;
 					app->meshRenderer->meshesUI[app->UI->whichMesh]->myGameObject->transform->setPosition({ x,y,z });
 				}
 			}
@@ -97,9 +97,9 @@ void GameWindows::PrintCamera(Application* app)
 
 		SDL_GetMouseState(&app->UI->mouse_x_aux, &app->UI->mouse_y_aux);
 
-		PickedGOs.push_back(klk);
+		PickedGOs.push_back(mousePickingAux);
 
-		app->hierarchy->SetGameObjectSelected(klk);
+		app->hierarchy->SetGameObjectSelected(mousePickingAux);
 		if (PickedGOs.size() == 0) app->hierarchy->SetGameObjectSelected(nullptr);
 		PickedGOs.clear();
 	}

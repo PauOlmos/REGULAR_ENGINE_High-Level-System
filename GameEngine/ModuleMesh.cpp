@@ -198,7 +198,6 @@ void ModuleMesh::RenderGameWindow()
 	//Render Game Window
 	for (int i = 0; i < meshess.size(); i++) {
 		if (!App->renderer3D->GetMainCamera()->IsInsideFrustum(meshess[i])) continue;
-
 		meshess[i]->Render();
 		renderedGameMeshes++;
 	}
