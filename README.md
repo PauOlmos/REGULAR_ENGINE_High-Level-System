@@ -139,8 +139,37 @@ Headers with options over basic engine functionalities.
    - A camera is created and set to main camera (it has a predefined script to test Play/Stop/Pause/Speed buttons).
 
 ***
-Github adress: https://github.com/bielrabasa/TheSeed_GameEngine
+
+## UI
+
+- The panel UI Creator allows user to create planes with no inputs, checkboxes and buttons.
+- When an UI object is selected can be dragged to the desired position or just block the option of dragging them so its position is not altered by error.
+- All UI Gameobjects can have textures. Predetermined ones are: 
+    - Normal UI Plane: Brown
+    - CheckBox: Red when is not active and Green when it is active
+    - Button: White when no inputs are recieved, Yellow when it is being pressed.
+- When pressed the start button, all the created UI GameObjects created which are inside of the orthogonal frustum, will be displayed on the screen + the DEMO.
+
+### THE DEMO:
+
+- At the beggining it shows a UI Plane and a Button to start the game.
+- Later, when the initial screen is not visible anymore, a UI plane is shown (crosshair).
+- Pressing F1 after this event, enables/disables the menu of activating the VSync, which is composed of a UI Plane and a CheckBox.
+- If the checkbox of the F1 menu is green, Vsync will be activated, if it is red, no.
+
+***
+
+
+Github adress: https://github.com/PauOlmos/REGULAR_ENGINE_fork
 ## Creators
+
+
+- Pau Olmos
+
+    * Github Account: [PauOlmos](https://github.com/PauOlmos)
+    
+    
+### Template used to create the UI Editor
 
 - Biel Rabasa
     * Github Account: [bielrabasa](https://github.com/bielrabasa)
@@ -148,3 +177,5 @@ Github adress: https://github.com/bielrabasa/TheSeed_GameEngine
 
 - Roger Salas
     * Github Account: [Draquian](https://github.com/Draquian)
+    
+    
